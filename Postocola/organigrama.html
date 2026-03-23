@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Organigrama POSTOCOLA S.A.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: #F8F4FC;
+      padding: 36px 20px 48px;
+      min-height: 100vh;
+    }
+
+    /* ROOT NODE */
+    .org-root {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0;
+      position: relative;
+    }
+    .node-root {
+      background: linear-gradient(135deg, #B793D2, #6B3F90);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 18px 40px;
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(139,95,176,0.35);
+      letter-spacing: 0.3px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* CONNECTOR FROM ROOT DOWN */
+    .conn-root {
+      display: flex;
+      justify-content: center;
+    }
+    .conn-root-line {
+      width: 3px;
+      height: 36px;
+      background: linear-gradient(to bottom, #B793D2, #D4B8E8);
+      border-radius: 2px;
+    }
+
+    /* HORIZONTAL BRANCH */
+    .branch-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0;
+    }
+    .branch-line {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 3px;
+      background: linear-gradient(90deg, transparent 2%, #D4B8E8 10%, #B793D2 50%, #D4B8E8 90%, transparent 98%);
+      border-radius: 2px;
+      width: 85%;
+    }
+
+    /* VICE COLUMNS */
+    .vp-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      padding-top: 0;
+      position: relative;
+    }
+
+    /* EACH VP COLUMN */
+    .vp-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      min-width: 160px;
+      max-width: 190px;
+      flex: 1;
+    }
+
+    /* CONNECTOR STUB DOWN FROM BRANCH LINE */
+    .conn-stub {
+      width: 3px;
+      height: 32px;
+      background: linear-gradient(to bottom, #D4B8E8, #B793D2);
+      border-radius: 0 0 2px 2px;
+    }
+
+    /* VP NODE */
+    .node-vp {
+      background: #fff;
+      border: 2px solid #B793D2;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #8B5FB0;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(183,147,210,0.18);
+      width: 100%;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+    }
+    .node-vp:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 28px rgba(183,147,210,0.28);
+    }
+    .node-vp-icon {
+      font-size: 1.3rem;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* CONNECTOR STUB BELOW VP */
+    .conn-stub-sm {
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(to bottom, #B793D2, #D4B8E8);
+    }
+
+    /* CHIP NODES */
+    .chips-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    .chip {
+      background: #EDE5F5;
+      color: #6B3F90;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 7px 14px;
+      border-radius: 50px;
+      text-align: center;
+      width: 100%;
+      border: 1px solid #D4B8E8;
+      transition: background 0.2s;
+    }
+    .chip:hover { background: #D4B8E8; }
+    .chip-connector {
+      width: 2px;
+      height: 10px;
+      background: #D4B8E8;
+    }
+
+    /* LEGEND */
+    .legend {
+      margin-top: 40px;
+      padding: 20px 24px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1.5px solid #EDE5F5;
+      box-shadow: 0 2px 12px rgba(183,147,210,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: #555;
+      font-weight: 600;
+    }
+    .legend-box {
+      width: 18px;
+      height: 18px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+    .legend-root-box { background: linear-gradient(135deg, #B793D2, #6B3F90); }
+    .legend-vp-box { background: #fff; border: 2px solid #B793D2; }
+    .legend-chip-box { background: #EDE5F5; border: 1px solid #D4B8E8; }
+
+    @media (max-width: 700px) {
+      .vp-row { flex-direction: column; align-items: center; }
+      .vp-col { min-width: 200px; max-width: 280px; width: 100%; }
+      .branch-line { width: 3px; height: 100%; top: 0; left: 50%; transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ROOT: PRESIDENCIA -->
+  <div class="org-root">
+    <div class="node-root">🏛️ &nbsp;Presidencia</div>
+  </div>
+
+  <!-- CONNECTOR ROOT → BRANCH -->
+  <div class="conn-root">
+    <div class="conn-root-line"></div>
+  </div>
+
+  <!-- HORIZONTAL BRANCH LINE -->
+  <div class="branch-wrap">
+    <div class="branch-line"></div>
+  </div>
+
+  <!-- VP ROW -->
+  <div class="vp-row">
+
+    <!-- VP 1 -->
+    <div class="vp-col">
+      <div class="conn-stub"></div>
+      <div class="node-vp">
+        <span class="node-vp-icon">🗂️</span>
+        Vicepresidencia<br/>Administrativa
+      </div>
+      <div class="conn-stub-sm"></div>
+      <div class="chips-col">
+        <div class="chip">3 Gerencias</div>
+        <div class="chip-connector"></div>
+        <div class="chip">5 Direcciones</div>
+        <div class="chip-connector"></div>
+        <div class="chip">Sedes Regionales</div>
+      </div>
+    </div>
+
+    <!-- VP 2 -->
+    <div class="vp-col">
+      <div class="conn-stub"></div>
+      <div class="node-vp">
+        <span class="node-vp-icon">💼</span>
+        Vicepresidencia<br/>Comercial
+      </div>
+      <div class="conn-stub-sm"></div>
+      <div class="chips-col">
+        <div class="chip">3 Gerencias</div>
+        <div class="chip-connector"></div>
+        <div class="chip">5 Direcciones</div>
+        <div class="chip-connector"></div>
+        <div class="chip">Sedes Regionales</div>
+      </div>
+    </div>
+
+    <!-- VP 3 -->
+    <div class="vp-col">
+      <div class="conn-stub"></div>
+      <div class="node-vp">
+        <span class="node-vp-icon">⚙️</span>
+        Vicepresidencia<br/>de Operaciones
+      </div>
+      <div class="conn-stub-sm"></div>
+      <div class="chips-col">
+        <div class="chip">3 Gerencias</div>
+        <div class="chip-connector"></div>
+        <div class="chip">5 Direcciones</div>
+        <div class="chip-connector"></div>
+        <div class="chip">Sedes Regionales</div>
+      </div>
+    </div>
+
+    <!-- VP 4 -->
+    <div class="vp-col">
+      <div class="conn-stub"></div>
+      <div class="node-vp">
+        <span class="node-vp-icon">💰</span>
+        Vicepresidencia<br/>Financiera
+      </div>
+      <div class="conn-stub-sm"></div>
+      <div class="chips-col">
+        <div class="chip">3 Gerencias</div>
+        <div class="chip-connector"></div>
+        <div class="chip">4 Direcciones</div>
+        <div class="chip-connector"></div>
+        <div class="chip">Sedes Regionales</div>
+      </div>
+    </div>
+
+    <!-- VP 5 -->
+    <div class="vp-col">
+      <div class="conn-stub"></div>
+      <div class="node-vp">
+        <span class="node-vp-icon">👥</span>
+        Vicepresidencia<br/>Talento Humano
+      </div>
+      <div class="conn-stub-sm"></div>
+      <div class="chips-col">
+        <div class="chip">3 Gerencias</div>
+        <div class="chip-connector"></div>
+        <div class="chip">5 Direcciones</div>
+        <div class="chip-connector"></div>
+        <div class="chip">Sedes Regionales</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-box legend-root-box"></div>
+      Presidencia (Gerencia General)
+    </div>
+    <div class="legend-item">
+      <div class="legend-box legend-vp-box"></div>
+      Vicepresidencias (5 en total)
+    </div>
+    <div class="legend-item">
+      <div class="legend-box legend-chip-box"></div>
+      Niveles de gestión (15 Gerencias · 24 Direcciones · 7 Sedes)
+    </div>
+  </div>
+
+</body>
+</html>
