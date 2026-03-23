@@ -1,0 +1,1714 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bienvenido a POSTOCOLA S.A. | Carlos Caballero</title>
+  <meta name="description" content="Manual de inducción digital para Carlos Caballero — Bienvenido a la familia POSTOCOLA S.A." />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ===================== CSS VARIABLES ===================== */
+    :root {
+      --primary: #B793D2;
+      --primary-dark: #8B5FB0;
+      --primary-darker: #6B3F90;
+      --primary-light: #D4B8E8;
+      --white: #FFFFFF;
+      --black: #000000;
+      --gray-100: #F8F4FC;
+      --gray-200: #EDE5F5;
+      --gray-600: #555;
+      --gray-800: #222;
+      --shadow-sm: 0 2px 8px rgba(183,147,210,0.15);
+      --shadow-md: 0 8px 30px rgba(183,147,210,0.25);
+      --shadow-lg: 0 20px 60px rgba(139,95,176,0.3);
+      --radius: 16px;
+      --radius-sm: 8px;
+      --transition: 0.35s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ===================== RESET & BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--white);
+      color: var(--gray-800);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ===================== BUBBLE BACKGROUND ===================== */
+    #bubble-container { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .bubble {
+      position: fixed;
+      bottom: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(183,147,210,0.32), rgba(139,95,176,0.1));
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform, opacity;
+      animation: floatUp linear forwards;
+    }
+    .bubble::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      opacity: 0;
+    }
+    .bubble.popping { animation: bubblePop 0.55s ease-out forwards !important; }
+    .bubble.popping::after { animation: bubbleRing 0.55s ease-out forwards; }
+    @keyframes floatUp {
+      0%   { transform: translateY(0); opacity: 0; }
+      8%   { opacity: 0.85; }
+      90%  { opacity: 0.65; }
+      100% { transform: translateY(-110vh); opacity: 0.65; }
+    }
+    @keyframes bubblePop {
+      0%   { transform: scale(1); opacity: 0.65; }
+      40%  { transform: scale(2.4); opacity: 0.3; }
+      100% { transform: scale(3.2); opacity: 0; }
+    }
+    @keyframes bubbleRing {
+      0%   { transform: scale(1); opacity: 0.9; }
+      100% { transform: scale(3.5); opacity: 0; }
+    }
+
+    /* ===================== NAVBAR ===================== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1.5px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), padding var(--transition);
+    }
+    nav.condensed .nav-inner { height: 54px; }
+    nav.condensed { box-shadow: 0 4px 24px rgba(183,147,210,0.22); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 44px;
+      width: auto;
+      object-fit: contain;
+    }
+    .nav-logo-text {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: -0.3px;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--gray-600);
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: color var(--transition), background var(--transition);
+      white-space: nowrap;
+    }
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--primary-dark);
+      background: var(--gray-200);
+    }
+    .nav-links .nav-cta a {
+      background: var(--primary);
+      color: var(--white);
+      padding: 8px 18px;
+      border-radius: 50px;
+    }
+    .nav-links .nav-cta a:hover {
+      background: var(--primary-dark);
+      color: var(--white);
+    }
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      background: var(--primary-dark);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* Mobile Nav */
+    @media (max-width: 900px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0; right: 0;
+        background: rgba(255,255,255,0.98);
+        backdrop-filter: blur(14px);
+        flex-direction: column;
+        padding: 16px 24px 24px;
+        border-bottom: 2px solid var(--gray-200);
+        gap: 4px;
+        box-shadow: var(--shadow-md);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1rem; padding: 12px 16px; display: block; }
+    }
+
+    /* ===================== SCROLL REVEAL ===================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+    .reveal-zoom {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal-zoom.visible { opacity: 1; transform: scale(1); }
+
+    /* ===================== SECTION COMMON ===================== */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 96px 24px;
+    }
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-tag {
+      display: inline-block;
+      background: var(--gray-200);
+      color: var(--primary-dark);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--gray-800);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .section-title span { color: var(--primary-dark); }
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      border-radius: 2px;
+      margin-top: 14px;
+    }
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    /* ===================== HERO ===================== */
+    #inicio {
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-darker) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 20px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.3);
+      margin-bottom: 28px;
+      backdrop-filter: blur(6px);
+    }
+    .hero-title {
+      font-size: clamp(2rem, 5.5vw, 3.6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.2);
+    }
+    .hero-title .typewriter { display: inline; }
+    .cursor {
+      display: inline-block;
+      width: 3px;
+      height: 1em;
+      background: rgba(255,255,255,0.85);
+      margin-left: 3px;
+      vertical-align: middle;
+      border-radius: 1px;
+      animation: cursorBlink 0.8s step-end infinite;
+    }
+    @keyframes cursorBlink { 50% { opacity: 0; } }
+    /* Hero stagger animations */
+    .hero-badge   { opacity: 0; transform: translateY(-22px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .hero-title   { opacity: 0; transition: opacity 0.5s ease; }
+    .hero-subtitle { opacity: 0; transition: opacity 0.8s ease; font-size: clamp(1rem, 2.5vw, 1.2rem); color: rgba(255,255,255,0.88); font-weight: 300; margin-bottom: 48px; line-height: 1.6; }
+    .hero-photo-wrap { opacity: 0; transform: scale(0.82); transition: opacity 0.65s ease, transform 0.65s ease; display: flex; justify-content: center; margin-bottom: 48px; }
+    .btn-primary.hero-btn { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease, transform 0.6s ease, box-shadow var(--transition), background var(--transition); }
+    .hero-badge.go, .hero-title.go, .hero-subtitle.go, .hero-photo-wrap.go, .btn-primary.hero-btn.go { opacity: 1; transform: none; }
+    .hero-photo-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 48px;
+    }
+    .hero-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid rgba(255,255,255,0.9);
+      box-shadow: 0 0 0 8px rgba(255,255,255,0.2), 0 20px 60px rgba(0,0,0,0.25);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-photo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 12px rgba(255,255,255,0.25), 0 30px 80px rgba(0,0,0,0.3);
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 36px;
+      background: var(--white);
+      color: var(--primary-dark);
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+      background: var(--gray-100);
+    }
+    .btn-primary svg { width: 20px; height: 20px; transition: transform var(--transition); }
+    .btn-primary:hover svg { transform: translateX(4px); }
+
+    /* ===================== IDENTIDAD ===================== */
+    #identidad { background: var(--gray-100); }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-sm);
+      border: 1.5px solid var(--gray-200);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+    }
+    .card-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--primary-light), var(--primary));
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .card-text {
+      font-size: 0.92rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    /* VALORES FRESH */
+    .values-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gray-800);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px 20px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 1.5px solid var(--gray-200);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .value-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-md);
+    }
+    .value-letter {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .value-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .value-desc {
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      line-height: 1.5;
+    }
+
+    /* DEPORTE BANNER */
+    .sport-banner {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary-darker));
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+    .sport-banner-left { flex: 1; min-width: 220px; }
+    .sport-banner-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .sport-banner-text {
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.7;
+    }
+    .sport-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .sport-chip {
+      background: rgba(255,255,255,0.18);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 50px;
+      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ===================== HISTORIA / TIMELINE ===================== */
+    #historia { background: var(--white); }
+    .timeline {
+      position: relative;
+      margin-top: 16px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--primary-light), var(--primary-dark));
+      border-radius: 2px;
+    }
+    @media (min-width: 700px) {
+      .timeline::before { left: 50%; transform: translateX(-50%); }
+    }
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 48px;
+      padding-left: 70px;
+      position: relative;
+    }
+    @media (min-width: 700px) {
+      .timeline-item {
+        padding-left: 0;
+        width: 50%;
+        padding-right: 60px;
+      }
+      .timeline-item:nth-child(even) {
+        margin-left: auto;
+        padding-right: 0;
+        padding-left: 60px;
+        flex-direction: row-reverse;
+      }
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 16px;
+      top: 6px;
+      width: 24px;
+      height: 24px;
+      background: var(--primary);
+      border-radius: 50%;
+      border: 4px solid var(--white);
+      box-shadow: 0 0 0 3px var(--primary-light), var(--shadow-sm);
+      flex-shrink: 0;
+      z-index: 2;
+    }
+    .timeline-dot::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 3px solid var(--primary);
+      opacity: 0;
+      transform: scale(1);
+    }
+    .timeline-item.visible .timeline-dot::after {
+      animation: pulseRing 1.8s ease-out 0.4s forwards;
+    }
+    @keyframes pulseRing {
+      0%   { opacity: 0.9; transform: scale(1); }
+      100% { opacity: 0; transform: scale(2.8); }
+    }
+    @media (min-width: 700px) {
+      .timeline-item .timeline-dot { left: auto; right: -14px; }
+      .timeline-item:nth-child(even) .timeline-dot { right: auto; left: -14px; }
+    }
+    .timeline-content {
+      background: var(--gray-100);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      border: 1.5px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      transition: transform var(--transition), box-shadow var(--transition);
+      flex: 1;
+    }
+    .timeline-content:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .timeline-year {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 6px;
+    }
+    .timeline-text {
+      font-size: 0.92rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    /* ===================== ORGANIGRAMA ===================== */
+    #organigrama { background: var(--gray-100); }
+    .org-iframe-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+    .org-iframe-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 600px;
+      border: none;
+    }
+    .org-fallback-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+    }
+    .org-hierarchy {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+    .org-badge {
+      background: var(--white);
+      border: 1.5px solid var(--primary-light);
+      color: var(--primary-dark);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 50px;
+      box-shadow: var(--shadow-sm);
+    }
+    .org-arrow {
+      color: var(--primary);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    /* ===================== PLAN ESTRATÉGICO ===================== */
+    #plan { background: var(--white); }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .pillar-card {
+      background: var(--gray-100);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      border: 1.5px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .pillar-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary-light);
+      background: var(--white);
+    }
+    .pillar-num {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--gray-200);
+      line-height: 1;
+      position: absolute;
+      top: 16px;
+      right: 20px;
+    }
+    .pillar-icon { font-size: 2rem; margin-bottom: 14px; }
+    .pillar-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 10px;
+    }
+    .pillar-desc {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    .salary-banner {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: var(--radius);
+      padding: 40px 36px;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+    .salary-banner .star { font-size: 2.5rem; margin-bottom: 12px; }
+    .salary-banner-text {
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .salary-banner-sub {
+      margin-top: 10px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    /* ===================== 90 DÍAS ===================== */
+    #noventa { background: var(--gray-100); }
+    .accordion { display: flex; flex-direction: column; gap: 16px; }
+    .accordion-item {
+      background: var(--white);
+      border-radius: var(--radius);
+      border: 1.5px solid var(--gray-200);
+      overflow: hidden;
+      transition: box-shadow var(--transition), border-color var(--transition);
+    }
+    .accordion-item:hover { border-color: var(--primary-light); box-shadow: var(--shadow-sm); }
+    .accordion-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 24px 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: background var(--transition);
+    }
+    .accordion-header:hover { background: var(--gray-100); }
+    .accordion-step {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .step-1 { background: linear-gradient(135deg, #D4B8E8, #B793D2); }
+    .step-2 { background: linear-gradient(135deg, #B793D2, #9B6EC0); }
+    .step-3 { background: linear-gradient(135deg, #9B6EC0, #8B5FB0); }
+    .step-4 { background: linear-gradient(135deg, #8B5FB0, #6B3F90); }
+    .accordion-header-text { flex: 1; }
+    .accordion-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .accordion-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gray-800);
+    }
+    .accordion-arrow {
+      font-size: 1.2rem;
+      color: var(--primary);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+    .accordion-item.open .accordion-arrow { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(.4,0,.2,1), padding 0.3s ease;
+    }
+    .accordion-item.open .accordion-body { max-height: 600px; }
+    .accordion-body-inner {
+      padding: 0 28px 28px 92px;
+    }
+    .accordion-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .accordion-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+    .accordion-list li::before {
+      content: '●';
+      color: var(--primary);
+      font-size: 0.5rem;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    /* ===================== ACCESO ===================== */
+    #acceso {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, var(--primary-darker) 100%);
+      text-align: center;
+      padding: 120px 24px;
+    }
+    .acceso-inner { max-width: 600px; margin: 0 auto; position: relative; z-index: 2; }
+    .acceso-emoji { font-size: 3.5rem; margin-bottom: 24px; display: block; }
+    .acceso-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .acceso-text {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.7;
+      margin-bottom: 44px;
+    }
+    .btn-acceso {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 18px 48px;
+      background: var(--white);
+      color: var(--primary-dark);
+      font-size: 1.1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      transition: transform var(--transition), box-shadow var(--transition);
+      animation: glowPulse 2.6s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 0 0 rgba(183,147,210,0); }
+      50%       { box-shadow: 0 10px 40px rgba(0,0,0,0.2), 0 0 0 12px rgba(183,147,210,0.35); }
+    }
+    .btn-acceso:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: none;
+    }
+    .btn-acceso svg { width: 22px; height: 22px; transition: transform var(--transition); }
+    .btn-acceso:hover svg { transform: translateX(5px); }
+
+    /* FOOTER */
+    footer { background: var(--primary-darker); padding: 36px 24px; text-align: center; position: relative; z-index: 1; }
+    .footer-inner { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .footer-logo img { width: 120px; height: auto; object-fit: contain; filter: brightness(0) invert(1); opacity: 0.85; }
+    .footer-divider { width: 60px; height: 1px; background: rgba(255,255,255,0.25); border-radius: 1px; }
+    .footer-text { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+    /* ===================== #PORQUE ===================== */
+    #porque { background: var(--white); overflow: hidden; }
+    #porque .section-inner { position: relative; z-index: 1; }
+    .porque-watermark {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .porque-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .porque-card {
+      background: var(--gray-100);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      border: 1.5px solid var(--gray-200);
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .porque-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--primary-light); background: var(--white); }
+    .porque-icon { width: 52px; height: 52px; background: linear-gradient(135deg, var(--primary-light), var(--primary)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+    .porque-icon svg { width: 26px; height: 26px; stroke: var(--white); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .porque-card-title { font-size: 1rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 10px; }
+    .porque-card-text { font-size: 0.88rem; color: var(--gray-600); line-height: 1.7; }
+
+    /* ===================== #BIENVENIDA ===================== */
+    #bienvenida { background: var(--gray-100); }
+    .steps-journey { display: flex; flex-direction: column; gap: 0; position: relative; }
+    .steps-journey::before {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 48px;
+      bottom: 48px;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--primary-light), var(--primary-dark));
+      border-radius: 2px;
+      z-index: 0;
+    }
+    @media (min-width: 600px) { .steps-journey::before { left: 36px; } }
+    .step-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding: 28px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .step-num {
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      font-size: 1.5rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(183,147,210,0.4);
+    }
+    .step-body { flex: 1; background: var(--white); border-radius: var(--radius); padding: 24px 28px; border: 1.5px solid var(--gray-200); box-shadow: var(--shadow-sm); transition: transform var(--transition), box-shadow var(--transition); }
+    .step-body:hover { transform: translateX(6px); box-shadow: var(--shadow-md); }
+    .step-icon-svg { width: 36px; height: 36px; stroke: var(--primary); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 10px; }
+    .step-title { font-size: 1rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 8px; }
+    .step-desc { font-size: 0.88rem; color: var(--gray-600); line-height: 1.7; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 600px) {
+      section { padding: 72px 16px; }
+      .accordion-body-inner { padding: 0 20px 24px 20px; }
+      .timeline-item { padding-left: 60px; }
+      .sport-banner { flex-direction: column; }
+      .org-hierarchy { gap: 6px; }
+    }
+
+    /* ===================== PROGRESS BAR ===================== */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-dark));
+      z-index: 2000;
+      transition: none;
+      pointer-events: none;
+    }
+
+    /* ===================== BACK TO TOP ===================== */
+    #back-to-top {
+      position: fixed;
+      bottom: 32px; right: 32px;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border: none; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: var(--shadow-md);
+      z-index: 900;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.25s ease, scale 0.25s ease;
+      pointer-events: none;
+    }
+    #back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    #back-to-top:hover { box-shadow: var(--shadow-lg); transform: translateY(0) scale(1.1); }
+    #back-to-top svg { width: 22px; height: 22px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+    @media (max-width: 600px) { #back-to-top { width: 44px; height: 44px; bottom: 20px; right: 20px; } }
+
+    /* ===================== CONTACT SECTION ===================== */
+    #contacto { background: var(--white); }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; margin-bottom: 24px; }
+    .contact-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 36px 28px;
+      border: 1.5px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+    .contact-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+    .contact-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #fff; font-size: 1.5rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      box-shadow: 0 6px 20px rgba(183,147,210,0.4);
+    }
+    .contact-role { font-size: 0.72rem; font-weight: 700; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    .contact-name { font-size: 1.1rem; font-weight: 800; color: var(--gray-800); margin-bottom: 4px; }
+    .contact-cargo { font-size: 0.88rem; color: var(--gray-600); margin-bottom: 18px; }
+    .contact-divider { height: 1px; background: var(--gray-200); margin-bottom: 18px; }
+    .contact-info { display: flex; flex-direction: column; gap: 10px; text-align: left; }
+    .contact-row { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--gray-600); }
+    .contact-row svg { width: 18px; height: 18px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+    .contact-note { font-size: 0.85rem; color: var(--gray-600); font-style: italic; margin-top: 8px; }
+
+    /* ===================== THEME TOGGLE ===================== */
+    #theme-toggle {
+      background: transparent; border: none; cursor: pointer;
+      padding: 6px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background var(--transition);
+      margin-left: 8px;
+    }
+    #theme-toggle:hover { background: var(--gray-200); }
+    #theme-toggle svg { width: 22px; height: 22px; stroke: var(--primary-dark); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--transition); }
+    body.dark-mode #theme-toggle svg { stroke: var(--primary-light); }
+
+    /* ===================== DARK MODE ===================== */
+    body { transition: background-color 0.4s ease, color 0.4s ease; }
+    .card, .porque-card, .step-body, .pillar-card, .accordion-item, .contact-card, .value-card, .timeline-content, .org-badge, nav {
+      transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
+    }
+    body.dark-mode {
+      --white: #1A1025;
+      --black: #F0E8FF;
+      --gray-100: #241535;
+      --gray-200: #3A2550;
+      --gray-600: #C4A8E0;
+      --gray-800: #EDE5F5;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.4);
+      --shadow-md: 0 8px 30px rgba(0,0,0,0.5);
+      --shadow-lg: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    body.dark-mode nav { background: rgba(26,16,37,0.95); }
+    body.dark-mode .card,
+    body.dark-mode .porque-card,
+    body.dark-mode .step-body,
+    body.dark-mode .pillar-card,
+    body.dark-mode .accordion-item,
+    body.dark-mode .contact-card { background: #2A1840; border-color: #4A3060; }
+    body.dark-mode footer { background: #0F0818; }
+    body.dark-mode .bubble { opacity: 0.5; }
+  </style>
+</head>
+<body>
+
+<!-- ANTI-FLASH DARK MODE -->
+<script>
+  (function(){
+    const t = localStorage.getItem('postocola-theme');
+    if (t === 'dark') document.body.classList.add('dark-mode');
+  })();
+</script>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar"></div>
+
+<!-- BACK TO TOP -->
+<button id="back-to-top" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- BUBBLE CONTAINER -->
+<div id="bubble-container"></div>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#inicio" class="nav-logo">
+      <img src="Logo postocola sin fondo.png" alt="Logo POSTOCOLA" onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+      <span class="nav-logo-text" style="display:none;">POSTOCOLA</span>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+    <button id="theme-toggle" aria-label="Cambiar tema">
+      <!-- moon icon (visible in light mode) -->
+      <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <!-- sun icon (visible in dark mode) -->
+      <svg class="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#porque">¿Por qué?</a></li>
+      <li><a href="#bienvenida">Bienvenida</a></li>
+      <li><a href="#identidad">Nuestra Identidad</a></li>
+      <li><a href="#historia">Nuestra Historia</a></li>
+      <li><a href="#organigrama">Organigrama</a></li>
+      <li><a href="#plan">Plan Estratégico</a></li>
+      <li><a href="#noventa">Primeros 90 Días</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li class="nav-cta"><a href="#acceso">Acceso</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== SECCIÓN 1: INICIO ===================== -->
+<section id="inicio">
+  <div class="hero-inner">
+    <div class="hero-badge">✨ Tu nueva familia te da la bienvenida</div>
+    <h1 class="hero-title"><span class="typewriter"></span><span class="cursor"></span></h1>
+    <p class="hero-subtitle">Más que una empresa, una experiencia que transforma tu futuro</p>
+    <div class="hero-photo-wrap">
+      <img
+        src="foto profesor.jpeg"
+        alt="Carlos Caballero"
+        class="hero-photo"
+        onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22160%22 height=%22160%22 viewBox=%220 0 160 160%22><circle cx=%2280%22 cy=%2280%22 r=%2280%22 fill=%22%23D4B8E8%22/><text x=%2280%22 y=%2290%22 text-anchor=%22middle%22 font-size=%2256%22 fill=%22%238B5FB0%22>&#128100;</text></svg>'"
+      />
+    </div>
+    <a href="#porque" class="btn-primary hero-btn">
+      Comienza tu viaje
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN: POR QUÉ ===================== -->
+<section id="porque">
+  <div class="section-inner">
+    <img src="Logo postocola sin fondo.png" alt="" class="porque-watermark" aria-hidden="true" />
+    <span class="section-tag reveal">Onboarding</span>
+    <h2 class="section-title reveal">¿Por qué este <span>Manual</span>?</h2>
+    <p class="section-subtitle reveal">El onboarding o proceso de inducción es mucho más que un requisito administrativo; es una herramienta estratégica que garantiza tu adaptación exitosa dentro de la organización. En POSTOCOLA entendemos que una correcta integración impacta directamente en el desempeño y permanencia de nuestros colaboradores.</p>
+    <div class="porque-cards">
+      <div class="porque-card reveal-left">
+        <div class="porque-icon">
+          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3"/></svg>
+        </div>
+        <div class="porque-card-title">Reducción de la Rotación</div>
+        <p class="porque-card-text">Un proceso de inducción bien estructurado disminuye la incertidumbre inicial y reduce la llamada "disonancia cognoscitiva": la diferencia entre lo que esperabas y la realidad. Esto evita renuncias tempranas y reduce costos de selección y capacitación.</p>
+      </div>
+      <div class="porque-card reveal">
+        <div class="porque-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div class="porque-card-title">Aumento de la Productividad</div>
+        <p class="porque-card-text">Al recibir la información correcta desde el inicio, podrás adaptarte más rápido a tu rol, comprender el contexto organizacional y alcanzar un nivel de desempeño óptimo en menor tiempo.</p>
+      </div>
+      <div class="porque-card reveal-right">
+        <div class="porque-icon">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <div class="porque-card-title">Bienestar y Compromiso</div>
+        <p class="porque-card-text">Sentirte acompañado desde el primer día fortalece tu sentido de pertenencia, incrementa tu motivación y mejora tu experiencia laboral.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN: BIENVENIDA ===================== -->
+<section id="bienvenida">
+  <div class="section-inner">
+    <span class="section-tag reveal">Protocolo de Bienvenida</span>
+    <h2 class="section-title reveal">Tu Experiencia en <span>POSTOCOLA</span></h2>
+    <p class="section-subtitle reveal">Para facilitar tu integración, hemos diseñado un proceso de acompañamiento estructurado que te acompañará desde el primer día.</p>
+    <div class="steps-journey">
+
+      <div class="step-card reveal-left">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <svg class="step-icon-svg" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          <div class="step-title">Kit de Bienvenida</div>
+          <p class="step-desc">Incluye este manual, elementos corporativos y tu carta de bienvenida personalizada.</p>
+        </div>
+      </div>
+
+      <div class="step-card reveal-left" style="transition-delay:0.15s">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <svg class="step-icon-svg" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="step-title">Asignación de un Buddy</div>
+          <p class="step-desc">Un compañero experimentado te guiará y acompañará durante tus primeras semanas en la empresa.</p>
+        </div>
+      </div>
+
+      <div class="step-card reveal-left" style="transition-delay:0.30s">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <svg class="step-icon-svg" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <div class="step-title">Recorrido por Instalaciones</div>
+          <p class="step-desc">Conocerás tu entorno de trabajo, las áreas clave y a los equipos con quienes colaborarás.</p>
+        </div>
+      </div>
+
+      <div class="step-card reveal-left" style="transition-delay:0.45s">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <svg class="step-icon-svg" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          <div class="step-title">Acceso a Plataformas de Aprendizaje</div>
+          <p class="step-desc">Formación continua sobre la compañía, disponible a tu ritmo y desde cualquier dispositivo.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 2: NUESTRA IDENTIDAD ===================== -->
+<section id="identidad">
+  <div class="section-inner">
+    <span class="section-tag reveal">Quiénes Somos</span>
+    <h2 class="section-title reveal">Nuestra <span>Identidad</span></h2>
+    <p class="section-subtitle reveal">Los valores y propósitos que nos definen como empresa y nos distinguen como familia.</p>
+
+    <div class="cards-grid">
+      <div class="card reveal-left">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Misión</div>
+        <p class="card-text">Refrescar cada momento de la vida de los colombianos, promoviendo el deporte y entregando bebidas de la más alta calidad que generen bienestar y alegría, impulsados por un equipo humano excepcional y procesos brillantes.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon">🔭</div>
+        <div class="card-title">Visión</div>
+        <p class="card-text">Ser la compañía de bebidas líder y más querida de Colombia para el 2030, reconocida por nuestra resiliencia, innovación constante y compromiso con la excelencia.</p>
+      </div>
+      <div class="card reveal-right">
+        <div class="card-icon">🤝</div>
+        <div class="card-title">Fundación</div>
+        <p class="card-text">Reunimos y gestionamos recursos para apoyar a niños con enfermedades relacionadas a hábitos alimenticios, especialmente en comunidades con acceso limitado a servicios de salud.</p>
+      </div>
+    </div>
+
+    <!-- VALORES FRESH -->
+    <h3 class="values-title reveal">Nuestros Valores <span style="color:var(--primary-dark)">FRESH</span></h3>
+    <div class="values-grid">
+      <div class="value-card reveal-left">
+        <span class="value-letter">F</span>
+        <div class="value-name">Fraternidad</div>
+        <p class="value-desc">Construimos lazos genuinos de hermandad y apoyo mutuo en cada equipo.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-letter">R</span>
+        <div class="value-name">Respeto</div>
+        <p class="value-desc">Valoramos la dignidad de cada persona, sus ideas y su diversidad.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-letter">E</span>
+        <div class="value-name">Empatía</div>
+        <p class="value-desc">Nos ponemos en los zapatos del otro para entender y actuar con corazón.</p>
+      </div>
+      <div class="value-card reveal">
+        <span class="value-letter">S</span>
+        <div class="value-name">Solidaridad</div>
+        <p class="value-desc">Nos apoyamos en los desafíos y celebramos juntos cada logro.</p>
+      </div>
+      <div class="value-card reveal-right">
+        <span class="value-letter">H</span>
+        <div class="value-name">Honestidad</div>
+        <p class="value-desc">Actuamos con transparencia, integridad y coherencia siempre.</p>
+      </div>
+    </div>
+
+    <!-- DEPORTE BANNER -->
+    <div class="sport-banner reveal">
+      <div class="sport-banner-left">
+        <div class="sport-banner-title">🏆 Compromiso con el Deporte Colombiano</div>
+        <p class="sport-banner-text">POSTOCOLA cree en el poder transformador del deporte. Por eso patrocinamos disciplinas que inspiran a millones de colombianos y forman campeones dentro y fuera de la cancha.</p>
+      </div>
+      <div class="sport-chips">
+        <div class="sport-chip">Ciclismo</div>
+        <div class="sport-chip">Fútbol</div>
+        <div class="sport-chip">Patinaje de Velocidad</div>
+        <div class="sport-chip">🟢⚽ Deportivo Cali</div>
+        <div class="sport-chip">🔵⚽ Millonarios FC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 3: NUESTRA HISTORIA ===================== -->
+<section id="historia">
+  <div class="section-inner">
+    <span class="section-tag reveal">Nuestro Camino</span>
+    <h2 class="section-title reveal">Nuestra <span>Historia</span></h2>
+    <p class="section-subtitle reveal">Un legado construido con valentía, resiliencia y pasión por la excelencia.</p>
+
+    <div class="timeline">
+      <div class="timeline-item reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">1969</div>
+          <p class="timeline-text">Fundación de POSTOCOLA S.A. por <strong>Julio Mario Ardila</strong> y <strong>Carlos Santodomingo</strong>, dos visionarios que creyeron en el sabor colombiano.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-right">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">1993</div>
+          <p class="timeline-text">La empresa atraviesa su mayor <strong>crisis empresarial</strong>, poniendo a prueba la resiliencia de sus fundadores y su equipo.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">1994</div>
+          <p class="timeline-text"><strong>Inversión estratégica de Inca Kola</strong>: un respaldo que marcó el inicio de un nuevo capítulo y el renacer triunfante de la empresa.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-right">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2012</div>
+          <p class="timeline-text">POSTOCOLA recibe el <strong>Premio Nacional de la Calidad</strong>, reconocimiento a su compromiso irrenunciable con la excelencia.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <div class="timeline-year">2022</div>
+          <p class="timeline-text">Segunda obtención del <strong>Premio Nacional de la Calidad</strong>, consolidando a POSTOCOLA como referente de calidad en Colombia.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal-right">
+        <div class="timeline-dot" style="background:var(--primary-dark);"></div>
+        <div class="timeline-content" style="border-color:var(--primary-light);background:linear-gradient(135deg,#F8F4FC,#FFF);">
+          <div class="timeline-year" style="color:var(--primary-darker);">Hoy</div>
+          <p class="timeline-text">
+            <strong>~<span class="counter" data-target="40" data-format="approx">40</span> de participación de mercado</strong> · <strong><span class="counter" data-target="4500">4.500</span> colaboradores</strong> comprometidos · <strong><span class="counter" data-target="7">7</span> sedes regionales</strong> a lo largo de Colombia.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 4: ORGANIGRAMA ===================== -->
+<section id="organigrama">
+  <div class="section-inner">
+    <span class="section-tag reveal">Estructura</span>
+    <h2 class="section-title reveal">Nuestra <span>Gran Familia</span></h2>
+    <p class="section-subtitle reveal">POSTOCOLA cuenta con aproximadamente <strong><span class="counter" data-target="4500">4.500</span> colaboradores</strong> distribuidos en <strong><span class="counter" data-target="7">7</span> sedes regionales</strong>. Conoce nuestra estructura:</p>
+
+    <div class="org-iframe-wrap reveal">
+      <iframe src="organigrama.html" title="Organigrama POSTOCOLA S.A."></iframe>
+    </div>
+
+    <div class="reveal">
+      <p class="org-fallback-title">Jerarquía Organizacional</p>
+      <div class="org-hierarchy">
+        <span class="org-badge">🏛️ Presidencia</span>
+        <span class="org-arrow">→</span>
+        <span class="org-badge">📊 Vicepresidencia Administrativa</span>
+        <span class="org-badge">💼 Vicepresidencia Comercial</span>
+        <span class="org-badge">⚙️ Vicepresidencia de Operaciones</span>
+        <span class="org-badge">💰 Vicepresidencia Financiera</span>
+        <span class="org-badge">👥 Vicepresidencia de Talento Humano</span>
+        <span class="org-arrow">→</span>
+        <span class="org-badge">📋 15 Gerencias</span>
+        <span class="org-arrow">→</span>
+        <span class="org-badge">🗂️ 24 Direcciones de División</span>
+        <span class="org-arrow">→</span>
+        <span class="org-badge">🏢 7 Sedes Regionales</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 5: PLAN ESTRATÉGICO ===================== -->
+<section id="plan">
+  <div class="section-inner">
+    <span class="section-tag reveal">Estrategia</span>
+    <h2 class="section-title reveal">Hacia Dónde <span>Vamos</span></h2>
+    <p class="section-subtitle reveal">5 pilares que guían cada decisión y nos llevan hacia el liderazgo en el mercado colombiano de bebidas.</p>
+
+    <div class="pillars-grid">
+      <div class="pillar-card reveal-left">
+        <span class="pillar-num">01</span>
+        <div class="pillar-icon">🚀</div>
+        <div class="pillar-name">Expansión Comercial</div>
+        <p class="pillar-desc">Fortalecer nuestra presencia en todos los canales y desarrollar nuevas líneas de productos.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-num">02</span>
+        <div class="pillar-icon">⚙️</div>
+        <div class="pillar-name">Excelencia Operativa</div>
+        <p class="pillar-desc">Adoptar tecnología de punta y practicar mejora continua en todos nuestros procesos.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-num">03</span>
+        <div class="pillar-icon">🌟</div>
+        <div class="pillar-name">Talento Humano</div>
+        <p class="pillar-desc">Desarrollar, inspirar y fidelizar a los mejores colaboradores del sector.</p>
+      </div>
+      <div class="pillar-card reveal">
+        <span class="pillar-num">04</span>
+        <div class="pillar-icon">💡</div>
+        <div class="pillar-name">Innovación</div>
+        <p class="pillar-desc">Crear productos que respondan a las nuevas tendencias de bienestar y estilo de vida.</p>
+      </div>
+      <div class="pillar-card reveal-right">
+        <span class="pillar-num">05</span>
+        <div class="pillar-icon">🌱</div>
+        <div class="pillar-name">Sostenibilidad</div>
+        <p class="pillar-desc">Generar un impacto positivo ambiental y social en las comunidades donde operamos.</p>
+      </div>
+    </div>
+
+    <div class="salary-banner reveal">
+      <div class="star">⭐</div>
+      <p class="salary-banner-text">Salarios en promedio 10% superiores al mercado</p>
+      <p class="salary-banner-sub">Creemos que el talento merece una compensación justa y competitiva. En POSTOCOLA, cada colaborador es nuestra inversión más valiosa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 6: TUS PRIMEROS 90 DÍAS ===================== -->
+<section id="noventa">
+  <div class="section-inner">
+    <span class="section-tag reveal">Tu Camino</span>
+    <h2 class="section-title reveal">Tus Primeros <span>90 Días</span></h2>
+    <p class="section-subtitle reveal">Te acompañamos en cada etapa de tu adaptación. Tu éxito es nuestra misión.</p>
+
+    <div class="accordion reveal">
+
+      <div class="accordion-item open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-step step-1">🌱</div>
+          <div class="accordion-header-text">
+            <div class="accordion-label">Semana 1</div>
+            <div class="accordion-title">Integración e Inducción</div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="accordion-list">
+              <li>Bienvenida oficial: entrega de herramientas, accesos y presentación de los valores FRESH.</li>
+              <li>Cata de portafolio: degustación de todas las bebidas de la familia POSTOCOLA.</li>
+              <li>Dinámica de fraternidad: actividades para conocer a tu equipo y construir lazos desde el día uno.</li>
+              <li>Inmersión operativa: recorrido guiado por el ciclo productivo completo.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-step step-2">📚</div>
+          <div class="accordion-header-text">
+            <div class="accordion-label">Mes 1</div>
+            <div class="accordion-title">Capacitación y Formación</div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="accordion-list">
+              <li>Escuela de bebidas: formación técnica especializada en el portafolio y la industria.</li>
+              <li>Conocimiento del negocio: contexto estratégico, mercado y competencia.</li>
+              <li>Cultura y ética: profundización en los valores FRESH y el código de conducta.</li>
+              <li>Seguimiento inicial: primera reunión formal de acompañamiento con tu líder.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-step step-3">🔄</div>
+          <div class="accordion-header-text">
+            <div class="accordion-label">Mes 2</div>
+            <div class="accordion-title">Retroalimentación y Corrección</div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="accordion-list">
+              <li>Sesión de feedback con tu líder directo: evaluación honesta y constructiva de los primeros avances.</li>
+              <li>Refuerzo de tareas y procesos: ajustes precisos para potenciar tu desempeño y bienestar.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <div class="accordion-step step-4">🏆</div>
+          <div class="accordion-header-text">
+            <div class="accordion-label">Mes 3</div>
+            <div class="accordion-title">Consolidación y Feedback Final</div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="accordion-body-inner">
+            <ul class="accordion-list">
+              <li>Evaluación integral de adaptación: medición de tus logros y áreas de crecimiento.</li>
+              <li>Plan de crecimiento personal: co-construcción de tu hoja de ruta dentro de POSTOCOLA.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN: CONTACTO ===================== -->
+<section id="contacto">
+  <div class="section-inner">
+    <span class="section-tag reveal">Tu Red de Apoyo</span>
+    <h2 class="section-title reveal">¿Tienes alguna <span>duda</span>?</h2>
+    <p class="section-subtitle reveal">Estas son las personas que estarán contigo desde el primer día.</p>
+    <div class="contact-grid">
+
+      <div class="contact-card reveal-left">
+        <div class="contact-avatar">JG</div>
+        <div class="contact-role">Jefe Directo</div>
+        <div class="contact-name">Juan José Gómez</div>
+        <p class="contact-cargo">Gerente de Gestión Humana</p>
+        <div class="contact-divider"></div>
+        <div class="contact-info">
+          <div class="contact-row">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            juan.gomez@postocola.com.co
+          </div>
+          <div class="contact-row">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.7 6.7l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Ext. 1042
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-card reveal-right">
+        <div class="contact-avatar">DG</div>
+        <div class="contact-role">Tu Buddy</div>
+        <div class="contact-name">Dulce Guerrero</div>
+        <p class="contact-cargo">Analista Senior — Gestión Humana</p>
+        <div class="contact-divider"></div>
+        <div class="contact-info">
+          <div class="contact-row">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            dulce.guerrero@postocola.com.co
+          </div>
+          <div class="contact-row">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.38 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.74a16 16 0 0 0 6.7 6.7l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Ext. 1087
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <p class="contact-note reveal">* Los datos de contacto son de carácter interno y confidencial. Ante cualquier duda, no dudes en escribirles.</p>
+  </div>
+</section>
+
+<!-- ===================== SECCIÓN 7: ACCESO ===================== -->
+<section id="acceso">
+  <div class="acceso-inner">
+    <span class="acceso-emoji reveal-zoom">🔐</span>
+    <h2 class="acceso-title reveal">¿Listo para continuar tu experiencia?</h2>
+    <p class="acceso-text reveal">Da clic aquí para iniciar sesión y acceder a tu manual de inducción personalizado según tu cargo.</p>
+    <a href="#" class="btn-acceso reveal">
+      Iniciar Sesión
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <img src="Logo postocola sin fondo.png" alt="Logo POSTOCOLA" onerror="this.parentElement.innerHTML='<span style=&quot;color:rgba(255,255,255,0.8);font-weight:800;font-size:1.1rem;&quot;>POSTOCOLA</span>'" />
+    </div>
+    <div class="footer-divider"></div>
+    <p class="footer-text">© 2025 POSTOCOLA S.A. | Todos los derechos reservados</p>
+  </div>
+</footer>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+  /* ---- BUBBLE EXPLOSION SYSTEM ---- */
+  const bubbleContainer = document.getElementById('bubble-container');
+  function createBubble() {
+    const b = document.createElement('div');
+    b.classList.add('bubble');
+    const size = Math.random() * 26 + 12;
+    b.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;animation-duration:${Math.random()*6+6}s;`;
+    bubbleContainer.appendChild(b);
+    b.addEventListener('animationend', function handler(e) {
+      if (e.animationName === 'floatUp') {
+        b.removeEventListener('animationend', handler);
+        b.classList.add('popping');
+        b.addEventListener('animationend', () => b.remove(), { once: true });
+      }
+    });
+  }
+  for (let i = 0; i < 16; i++) setTimeout(createBubble, Math.random() * 3000);
+  setInterval(createBubble, 800);
+
+  /* ---- HAMBURGER ---- */
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('nav-links');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    navLinks.classList.remove('open');
+  }));
+
+  /* ---- NAVBAR: ACTIVE + CONDENSED ---- */
+  const sections = document.querySelectorAll('section[id]');
+  const navAs    = document.querySelectorAll('.nav-links a');
+  const nav      = document.getElementById('navbar');
+  function updateNav() {
+    let cur = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) cur = s.id; });
+    navAs.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    nav.classList.toggle('condensed', window.scrollY > 80);
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+
+  /* ---- SCROLL REVEAL (Intersection Observer) ---- */
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom').forEach(el => revealObs.observe(el));
+
+  /* ---- COUNTER ANIMATION ---- */
+  function animateCounter(el) {
+    const target = +el.dataset.target;
+    const fmt    = el.dataset.format || '';
+    const dur    = 1600;
+    const start  = performance.now();
+    (function tick(now) {
+      const ease = 1 - Math.pow(1 - Math.min((now - start) / dur, 1), 3);
+      const val  = Math.round(ease * target);
+      el.textContent = fmt === 'approx' ? '~' + val + '%' : val.toLocaleString('es-CO');
+      if (ease < 1) requestAnimationFrame(tick);
+    })(start);
+  }
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('.counter').forEach(el => counterObs.observe(el));
+
+  /* ---- HERO STAGGERED ANIMATIONS + JS TYPEWRITER ---- */
+  function heroStagger() {
+    const badge   = document.querySelector('.hero-badge');
+    const title   = document.querySelector('.hero-title');
+    const sub     = document.querySelector('.hero-subtitle');
+    const photo   = document.querySelector('.hero-photo-wrap');
+    const btn     = document.querySelector('.btn-primary.hero-btn');
+    const tw      = document.querySelector('.typewriter');
+    const cursor  = document.querySelector('.cursor');
+    const text    = '¡Bienvenido a la familia POSTOCOLA, Carlos!';
+
+    setTimeout(() => badge.classList.add('go'), 200);
+    setTimeout(() => {
+      title.classList.add('go');
+      let i = 0;
+      const iv = setInterval(() => {
+        if (i < text.length) { tw.textContent += text[i++]; }
+        else {
+          clearInterval(iv);
+          cursor.style.display = 'none';
+          setTimeout(() => sub.classList.add('go'),   300);
+          setTimeout(() => photo.classList.add('go'),  850);
+          setTimeout(() => btn.classList.add('go'),   1200);
+        }
+      }, 60);
+    }, 500);
+  }
+  window.addEventListener('DOMContentLoaded', heroStagger);
+
+  /* ---- ACCORDION ---- */
+  function toggleAccordion(header) {
+    const item   = header.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  /* ---- STAGGERED REVEAL DELAYS ---- */
+  document.querySelectorAll('.cards-grid .card, .pillars-grid .pillar-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.1) + 's';
+  });
+  document.querySelectorAll('.values-grid .value-card').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  /* ---- PROGRESS BAR ---- */
+  const progressBar = document.getElementById('progress-bar');
+  let rafPending = false;
+  function updateProgress() {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    progressBar.style.width = Math.min(pct, 100) + '%';
+    rafPending = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!rafPending) { rafPending = true; requestAnimationFrame(updateProgress); }
+  }, { passive: true });
+
+  /* ---- BACK TO TOP ---- */
+  const backBtn = document.getElementById('back-to-top');
+  window.addEventListener('scroll', () => {
+    backBtn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  backBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* ---- DARK MODE TOGGLE ---- */
+  const themeBtn  = document.getElementById('theme-toggle');
+  const moonIcon  = themeBtn.querySelector('.icon-moon');
+  const sunIcon   = themeBtn.querySelector('.icon-sun');
+  function applyTheme(dark) {
+    document.body.classList.toggle('dark-mode', dark);
+    moonIcon.style.display = dark ? 'none'  : 'block';
+    sunIcon.style.display  = dark ? 'block' : 'none';
+    localStorage.setItem('postocola-theme', dark ? 'dark' : 'light');
+  }
+  // Apply saved theme icons on load
+  applyTheme(document.body.classList.contains('dark-mode'));
+  themeBtn.addEventListener('click', () => applyTheme(!document.body.classList.contains('dark-mode')));
+</script>
+
+</body>
+</html>
