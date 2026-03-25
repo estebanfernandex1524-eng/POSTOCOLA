@@ -1,0 +1,214 @@
+<style>
+:root{
+  --c0b:#EEEDFE;--c0f:#26215C;--c0bd:#AFA9EC;
+  --c1b:#E6F1FB;--c1f:#042C53;--c1bd:#85B7EB;
+  --c2b:#E1F5EE;--c2f:#04342C;--c2bd:#5DCAA5;
+  --c3b:#FAEEDA;--c3f:#412402;--c3bd:#EF9F27;
+  --c4b:#EAF3DE;--c4f:#173404;--c4bd:#97C459;
+  --ln:rgba(0,0,0,.13);
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --c0b:#26215C;--c0f:#CECBF6;--c0bd:#534AB7;
+    --c1b:#042C53;--c1f:#B5D4F4;--c1bd:#185FA5;
+    --c2b:#04342C;--c2f:#9FE1CB;--c2bd:#0F6E56;
+    --c3b:#412402;--c3f:#FAC775;--c3bd:#854F0B;
+    --c4b:#173404;--c4f:#C0DD97;--c4bd:#3B6D11;
+    --ln:rgba(255,255,255,.15);
+  }
+}
+.node{border-radius:8px;padding:8px 10px;transition:filter .15s,transform .15s;cursor:pointer}
+.node:hover{filter:brightness(.92);transform:translateY(-1px)}
+.node.sel{filter:brightness(.86);outline:2px solid var(--c1bd)}
+.n0{background:var(--c0b);color:var(--c0f);border:1px solid var(--c0bd)}
+.n1{background:var(--c1b);color:var(--c1f);border:1px solid var(--c1bd)}
+.n2{background:var(--c2b);color:var(--c2f);border:1px solid var(--c2bd)}
+.n3{background:var(--c3b);color:var(--c3f);border:1px solid var(--c3bd)}
+.n4{background:var(--c4b);color:var(--c4f);border:1px solid var(--c4bd)}
+.nt{font-size:12px;font-weight:500;line-height:1.35}
+.ns{font-size:10px;opacity:.7;line-height:1.3;margin-top:2px}
+.vln{width:1.5px;background:var(--ln);margin:0 auto}
+.panel{display:none;margin-top:6px;border-radius:8px;border:1px solid var(--ln);padding:12px;animation:fi .2s}
+.panel.open{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:translateY(0)}}
+.tag{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:500;display:inline-block}
+</style>
+
+<div style="padding:14px 0;font-family:var(--font-sans,system-ui)">
+
+<div style="display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-bottom:14px">
+  <span class="n0 tag">Estratégico</span>
+  <span class="n1 tag">Vicepresidencias</span>
+  <span class="n2 tag">Gerencias</span>
+  <span class="n3 tag">Táctico</span>
+  <span class="n4 tag">Operativo</span>
+</div>
+
+<!-- PRESIDENTE -->
+<div style="display:flex;justify-content:center;padding:0 90px">
+  <div class="n0" style="flex:1;border-radius:8px;padding:10px 16px;text-align:center;border:1px solid var(--c0bd)">
+    <div class="nt" style="font-size:13px">Presidente</div>
+    <div class="ns">Máxima autoridad · Visión, estrategia y decisiones globales</div>
+  </div>
+</div>
+
+<div class="vln" style="height:14px"></div>
+
+<!-- VP ROW -->
+<div style="position:relative;padding-top:14px">
+  <div style="position:absolute;top:0;left:10%;right:10%;height:1.5px;background:var(--ln)"></div>
+  <div style="display:flex;gap:5px;padding:0 4px">
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div class="vln" style="height:14px"></div>
+      <div class="node n1" style="width:100%;text-align:center" onclick="tog('pcom',this)">
+        <div class="nt">VP Comercial</div>
+        <div class="ns">Ventas · Regional</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div class="vln" style="height:14px"></div>
+      <div class="node n1" style="width:100%;text-align:center" onclick="tog('pops',this)">
+        <div class="nt">VP Operaciones</div>
+        <div class="ns">Producción · Logística</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div class="vln" style="height:14px"></div>
+      <div class="node n1" style="width:100%;text-align:center" onclick="tog('pfin',this)">
+        <div class="nt">VP Financiera</div>
+        <div class="ns">Finanzas · Control</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div class="vln" style="height:14px"></div>
+      <div class="node n1" style="width:100%;text-align:center" onclick="tog('pth',this)">
+        <div class="nt">VP Talento Humano</div>
+        <div class="ns">RRHH · Cultura</div>
+      </div>
+    </div>
+
+    <div style="flex:1;display:flex;flex-direction:column;align-items:center">
+      <div class="vln" style="height:14px"></div>
+      <div class="node n1" style="width:100%;text-align:center" onclick="tog('pinn',this)">
+        <div class="nt">VP Estrategia</div>
+        <div class="ns">Innovación · Digital</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PANELES VP -->
+<div id="pcom" class="panel n1">
+  <div style="font-size:11px;font-weight:500;margin-bottom:8px;opacity:.65">Equipo VP Comercial — Gerencias</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(138px,1fr));gap:5px;margin-bottom:8px">
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Bogotá</div><div class="ns">Sede principal</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Cali</div><div class="ns">Sur occidente</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Medellín</div><div class="ns">Antioquia</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Barranquilla</div><div class="ns">Costa Atlántica</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Bucaramanga</div><div class="ns">Santanderes</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Sede 6</div><div class="ns">Por confirmar</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Regional Sede 7</div><div class="ns">Por confirmar</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Ventas</div><div class="ns">Estrategia comercial</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Canales</div><div class="ns">Distribución</div></div>
+  </div>
+  <div style="font-size:10px;opacity:.55;border-top:1px solid var(--ln);padding-top:6px">7 sedes · Cada gerente regional coordina ventas, logística y distribución local</div>
+</div>
+
+<div id="pops" class="panel n1">
+  <div style="font-size:11px;font-weight:500;margin-bottom:8px;opacity:.65">Equipo VP Operaciones — Gerencias</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:5px">
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Producción</div><div class="ns">Plantas y manufactura</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Logística</div><div class="ns">Distribución y flota</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. Cadena de Abastecimiento</div><div class="ns">Supply chain</div></div>
+  </div>
+</div>
+
+<div id="pfin" class="panel n1">
+  <div style="font-size:11px;font-weight:500;margin-bottom:8px;opacity:.65">Equipo VP Financiera — Gerencias</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:5px">
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Gerente Financiero</div><div class="ns">Presupuesto y control</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Contabilidad</div><div class="ns">Reportes financieros</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Tesorería</div><div class="ns">Flujo de caja</div></div>
+  </div>
+</div>
+
+<div id="pth" class="panel n1">
+  <div style="font-size:11px;font-weight:500;margin-bottom:8px;opacity:.65">Equipo VP Talento Humano — Gerencias</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:5px">
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Gerente de RRHH</div><div class="ns">Selección y desarrollo</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Nómina</div><div class="ns">Compensación y beneficios</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Cultura Org.</div><div class="ns">Clima y bienestar laboral</div></div>
+  </div>
+</div>
+
+<div id="pinn" class="panel n1">
+  <div style="font-size:11px;font-weight:500;margin-bottom:8px;opacity:.65">Equipo VP Estrategia e Innovación — Gerencias</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:5px">
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Innovación</div><div class="ns">I+D y nuevos productos</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Transformación Digital</div><div class="ns">Tecnología y datos</div></div>
+    <div class="n2" style="border-radius:6px;padding:6px 8px"><div class="nt">Ger. de Planeación</div><div class="ns">Estrategia corporativa</div></div>
+  </div>
+</div>
+
+<!-- NIVEL TÁCTICO -->
+<div class="vln" style="height:14px;margin-top:6px"></div>
+<div class="n3" style="border-radius:8px;padding:10px 14px;border:1px solid var(--c3bd)">
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:10px;justify-content:space-between">
+    <div>
+      <div class="nt">Nivel Táctico — 24 Directores de División</div>
+      <div class="ns">Reportan a los Gerentes de Área</div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:3px">
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Ventas</span>
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Marketing</span>
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Producción</span>
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Logístico</span>
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Canales</span>
+      <span style="background:var(--c3bd);color:var(--c3f);font-size:10px;padding:2px 7px;border-radius:4px">Dir. Distribución</span>
+    </div>
+  </div>
+</div>
+
+<!-- NIVEL OPERATIVO -->
+<div class="vln" style="height:14px"></div>
+<div class="n4" style="border-radius:8px;padding:10px 14px;border:1px solid var(--c4bd)">
+  <div class="nt" style="margin-bottom:8px">Nivel Operativo — ~4,230 empleados · 94% del personal total</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px">
+    <div style="background:var(--c4bd);color:var(--c4f);border-radius:6px;padding:6px 8px">
+      <div style="font-size:11px;font-weight:500">Mandos medios</div>
+      <div style="font-size:10px;opacity:.8">Coordinadores · Jefes</div>
+    </div>
+    <div style="background:var(--c4bd);color:var(--c4f);border-radius:6px;padding:6px 8px">
+      <div style="font-size:11px;font-weight:500">Nivel asistencial</div>
+      <div style="font-size:10px;opacity:.8">Analistas · Auxiliares</div>
+    </div>
+    <div style="background:var(--c4bd);color:var(--c4f);border-radius:6px;padding:6px 8px">
+      <div style="font-size:11px;font-weight:500">Nivel operativo</div>
+      <div style="font-size:10px;opacity:.8">Producción · Logística · Ventas campo</div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;font-size:10px;color:var(--color-text-secondary);margin-top:10px;opacity:.6">
+  Clic en cualquier vicepresidencia para ver su equipo · POSCOLA
+</div>
+
+</div>
+
+<script>
+let cur=null;
+function tog(id,el){
+  const p=document.getElementById(id);
+  const allN=document.querySelectorAll('.node.n1');
+  const allP=document.querySelectorAll('.panel');
+  if(cur===id){p.classList.remove('open');el.classList.remove('sel');cur=null;return;}
+  allP.forEach(x=>x.classList.remove('open'));
+  allN.forEach(x=>x.classList.remove('sel'));
+  p.classList.add('open');el.classList.add('sel');cur=id;
+}
+</script>
